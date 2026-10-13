@@ -1,0 +1,30 @@
+#!name=高德地图净化（Shadowrocket）
+#!desc=按用户提供的 RuCu6 脚本与 Loon 复写重建；自动下载配套 JS。保留原版天气、足迹、评价等隐藏行为。
+# Script patterns reconstructed from JS branches; original plugin script patterns unavailable.
+
+[Rule]
+DOMAIN,amap-aos-info-nogw.amap.com,REJECT
+DOMAIN,free-aos-cdn-image.amap.com,REJECT
+DOMAIN-SUFFIX,v.smtcdns.com,REJECT
+
+[URL Rewrite]
+(?i)^https://m5\.amap\.com/ws/shield/search/new_hotword\? - reject-dict
+(?i)^https://m5\.amap\.com/ws/faas/amap-navigation/card-service-(?:car-end|route-plan) - reject-dict
+(?i)^https://m5\.amap\.com/ws/shield/search_poi/tips_adv\? - reject-dict
+(?i)^https://oss\.amap\.com/ws/banner/lists/\? - reject-dict
+(?i)^https://ai\.amap\.com/v1/ai_rec/ - reject-dict
+(?i)^https://m5\.amap\.com/ws/aos/main/page/product/list\? - reject-dict
+(?i)^https://m5\.amap\.com/ws/faas/amap-navigation/(?:main-page-assets|main-page-location|ridewalk-end-fc|usr-profile-fc/homeV2) - reject-dict
+(?i)^https://m5\.amap\.com/ws/(?:mapapi/hint_text/offline_data|message/notice/list|shield/search/new_hotword) - reject-dict
+(?i)^https://m5\.amap\.com/ws/shield/scene/recommend\? - reject-dict
+(?i)^https://m5\.amap\.com/ws/valueadded/weather/v2\? - reject-dict
+(?i)^https://sns\.amap\.com/ws/msgbox/pull_mp\? - reject-dict
+(?i)^https://m5-zb\.amap\.com/ws/boss/(?:order/car/(?:feedback/get_card_questions|feedback/viptips|king_toolbox_car_bubble|remark/satisfactionConf|rights_information)|tips/onscene_visual_optimization) - reject-dict
+(?i)^https://m5-zb\.amap\.com/ws/boss/(?:pay/web/paySuccess/info/request|transportation/diversion/resource/driving) - reject-dict
+
+[Script]
+AmapCleanup = type=http-response,pattern=^https://(?:[A-Za-z0-9-]+\.)+amap\.com/ws/(?:aos/perception/publicTravel/beforeNavi|boss/car/order/content_info|boss/order_web/friendly_information|bus/plan/integrate|c3frontend/af-hotel/page/main|c3frontend/af-launch/page/main|c3frontend/af-nearby/nearby|faas/amap-navigation/card-service-plan-home|faas/amap-navigation/main-page(?:\?|$)|perception/drive/routeInfo|perception/drive/routePlan|promotion-web/resource|shield/dsp/profile/index/nodefaasv3|shield/frogserver/aocs/updatable/|shield/search/common/coupon/info|shield/search/nearbyrec_smart|shield/search/poi/detail|shield/search_bff/hotword|shield/search_poi/search/sp|shield/search_poi/mps|shield/search_poi/sug|shield/search_poi/tips_operation_location|valueadded/alimama/splash_screen),requires-body=true,max-size=0,timeout=10,script-path=https://raw.githubusercontent.com/fay000fay/shadowrocket-modules/main/scripts/amap-shadowrocket.js
+AmapExtraCleanup = type=http-response,pattern=(?i)^https://(?:m5\.amap\.com/ws/shield/(?:search_business/process/marketingOperationStructured\?|search_poi/homepage\?)|m5-zb\.amap\.com/ws/sharedtrip/taxi/order_detail_car_tips\?),requires-body=true,max-size=0,timeout=10,script-path=https://raw.githubusercontent.com/fay000fay/shadowrocket-modules/main/scripts/amap-shadowrocket.js
+
+[MITM]
+hostname = %APPEND% *.amap.com
