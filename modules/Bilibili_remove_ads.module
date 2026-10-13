@@ -1,0 +1,20 @@
+#!name=哔哩哔哩净化（小火箭基础版）
+#!desc=开屏、JSON 推荐流及直播广告净化。未包含 ProtoBuf、空降助手、青少年模式替换、会员状态修改及不可读取的远程 jq 布局。
+
+[Rule]
+# bsbsb.top is omitted: SponsorBlock is not included in this basic module.
+DOMAIN,api.biliapi.com,REJECT
+DOMAIN,app.biliapi.com,REJECT
+DOMAIN,api.biliapi.net,REJECT
+DOMAIN,app.biliapi.net,REJECT
+AND,((DOMAIN-SUFFIX,chat.bilibili.com),(OR,((DOMAIN-KEYWORD,stun),(DOMAIN-KEYWORD,tracker),(DOMAIN-KEYWORD,p2p)))),REJECT
+
+[URL Rewrite]
+(?i)^https://line3-h5-mobile-api\.biligame\.com/game/live/large_card_material\? - reject-dict
+(?i)^https://api\.live\.bilibili\.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_info\? - reject-dict
+
+[Script]
+BilibiliBasic = type=http-response,pattern=(?i)^https://(?:app\.bilibili\.com/x/(?:v2/(?:splash/(?:list|show|event/list2)|feed/index|search/square)|resource/(?:show/skin|top/activity|patch/tab(?:/v2)?)|vip/ads/materials)|api\.bilibili\.com/(?:x/(?:pd-proxy/tracker|resource/(?:top/activity|patch/tab(?:/v2)?)|v2/search/square|vip/ads/materials)|pgc/(?:activity/deliver/material/receive|page/channel))|api\.live\.bilibili\.com/xlive/(?:open-interface/v2/tracker/conf|app-interface/v2/index/feed|app-room/v1/index/getInfoBy(?:Room|User)))\?,requires-body=true,max-size=0,timeout=10,script-path=https://raw.githubusercontent.com/fay000fay/shadowrocket-modules/main/scripts/bilibili-basic.js
+
+[MITM]
+hostname = %APPEND% app.bilibili.com, api.bilibili.com, api.live.bilibili.com, line3-h5-mobile-api.biligame.com
