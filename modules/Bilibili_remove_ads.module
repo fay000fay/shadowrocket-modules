@@ -14,6 +14,7 @@ AND,((DOMAIN-SUFFIX,chat.bilibili.com),(OR,((DOMAIN-KEYWORD,stun),(DOMAIN-KEYWOR
 (?i)^https://api\.live\.bilibili\.com/xlive/e-commerce-interface/v1/ecommerce-user/get_shopping_info\? - reject-dict
 
 [Script]
+BilibiliSplash = type=http-request,pattern=(?i)^https?://app\.bilibili\.com/x/v\d+/splash/(?:list|show|event/list2)(?:[/?]|$),timeout=10,script-path=https://raw.githubusercontent.com/fay000fay/shadowrocket-modules/main/scripts/bilibili-splash.js?v=20261013-1
 BilibiliBasic = type=http-response,pattern=(?i)^https://(?:app\.bilibili\.com/x/(?:v2/(?:splash/(?:list|show|event/list2)|feed/index|search/square)|resource/(?:show/skin|top/activity|patch/tab(?:/v2)?)|vip/ads/materials)|api\.bilibili\.com/(?:x/(?:pd-proxy/tracker|resource/(?:top/activity|patch/tab(?:/v2)?)|v2/search/square|vip/ads/materials)|pgc/(?:activity/deliver/material/receive|page/channel))|api\.live\.bilibili\.com/xlive/(?:open-interface/v2/tracker/conf|app-interface/v2/index/feed|app-room/v1/index/getInfoBy(?:Room|User)))\?,requires-body=true,max-size=0,timeout=10,script-path=https://raw.githubusercontent.com/fay000fay/shadowrocket-modules/main/scripts/bilibili-basic.js
 
 [MITM]
